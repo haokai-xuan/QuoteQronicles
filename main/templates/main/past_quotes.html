@@ -1,0 +1,107 @@
+<!-- past_quotes.html -->
+{% extends "main/base.html" %}
+{% load static %}
+{% block content %}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Past Quotes</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .card-container {
+            display: flex;
+            justify-content: space-between;
+            /* Distribute space between cards */
+            flex-wrap: wrap;
+            /* Allow cards to wrap to the next line */
+            padding: 0 20px;
+            /* Adjust as needed */
+            box-sizing: border-box;
+            gap: 20px;
+        }
+
+        .flip-card {
+            background-color: transparent;
+            width: 300px;
+            height: 300px;
+            perspective: 1000px;
+        }
+
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        .flip-card:hover .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flip-card-front,
+
+        .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+        }
+
+        .flip-card-front {
+            background-color: #89b1ca;
+            color: black;
+            display: flex;
+            /* Use flexbox */
+            justify-content: center;
+            /* Center-align content horizontally */
+            align-items: center;
+            /* Center-align content vertically */
+        }
+
+        .flip-card-back {
+            background-color: #89b1ca;
+            color: white;
+            transform: rotateY(180deg);
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Past Quotes</h1>
+    <div class="card-container">
+        {% for quote in past_quotes %}
+        <a href="{% url 'quote_detail' quote.id %}">
+
+            <div class="flip-card">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <h1>{{ quote.date_created }}</h1>
+                    </div>
+                    <div class="flip-card-back">
+                        <p>{{ quote.quote }}</p>
+                        <p></p>
+                        <p>- {{ quote.author }}</p>
+                    </div>
+                </div>
+            </div>
+        </a>
+        {% empty %}
+        <li>No past quotes available.</li>
+        {% endfor %}
+    </div>
+</body>
+
+</html>
+
+{% endblock %}

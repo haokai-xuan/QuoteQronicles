@@ -1,0 +1,43 @@
+<!-- main/quote_detail.html -->
+
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block content %}
+    <head>
+        <title>Quote Detail - {{ quote_detail.date_created }}</title>
+        <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+        <style>
+            /* Apply CSS styles directly here for demonstration */
+            .quote-container {
+                width: 80%; /* Adjust the width as needed */
+                margin: 0 auto; /* Center the container */
+                padding: 20px; /* Add padding for spacing */
+            }
+
+            .quote {
+                /* Allow text to wrap within the container */
+                word-wrap: break-word;
+                text-align: center; /* Center-align the quote */
+            }
+        </style>
+    </head>
+
+    <div class="quote-container">
+        {% if quote_detail %}
+            <p><b>Date: </b>{{ quote_detail.date_created }}</p>
+            <div class="quote">
+                <h2><em>{{ quote_detail.quote }}</em></h2>
+                <p>- {{ quote_detail.author }}</p>
+                {% if quote_detail.img %}
+                    <img src="{{ quote_detail.img.url }}" class="center" alt="Image">
+                {% endif %}
+                <p></p>
+                <p><b>Synopsis: </b></p>
+                <p>{{ quote_detail.synopsis }}</p>
+            </div>
+        {% else %}
+            <p>No quote available with this ID.</p>
+        {% endif %}
+    </div>
+{% endblock %}
